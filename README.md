@@ -33,6 +33,13 @@ You can download prebuilt binaries for Linux and macOS from [EK Apps Repository]
 bash <(curl -fsSL https://apps.kaos.st/get) spec-builddep
 ```
 
+#### From [ESSENTIAL KAOS Public Repository](https://pkgs.kaos.st)
+
+```bash
+sudo yum install -y https://pkgs.kaos.st/kaos-repo-latest.el$(grep 'CPE_NAME' /etc/os-release | tr -d '"' | cut -d':' -f5).noarch.rpm
+sudo yum install spec-builddep
+```
+
 ### Command-line completion
 
 You can generate completion for `bash`, `zsh` or `fish` shell.
