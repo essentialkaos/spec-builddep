@@ -18,6 +18,8 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  golang >= 1.20
 
+Requires:       rpm rpm-build
+
 Provides:       %{name} = %{version}-%{release}
 
 ################################################################################
