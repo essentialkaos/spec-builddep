@@ -13,7 +13,7 @@
 
 <br/>
 
-`spec-builddep` is a simple utility for installing dependencies for building an RPM package (`yum-builddep` drop-in replacement).
+`spec-builddep` is a simple utility for installing dependencies for building an RPM package (`yum-builddep` _drop-in replacement_).
 
 ### Installation
 
@@ -27,7 +27,7 @@ go install github.com/essentialkaos/spec-builddep@latest
 
 #### Prebuilt binaries
 
-You can download prebuilt binaries for Linux and macOS from [EK Apps Repository](https://apps.kaos.st/spec-builddep/latest):
+You can download prebuilt binaries for Linux from [EK Apps Repository](https://apps.kaos.st/spec-builddep/latest):
 
 ```bash
 bash <(curl -fsSL https://apps.kaos.st/get) spec-builddep
