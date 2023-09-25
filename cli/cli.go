@@ -162,7 +162,7 @@ func configureUI() {
 	}
 }
 
-// checkSystem checks system for requred dependencies
+// checkSystem checks system for required dependencies
 func checkSystem() error {
 	if env.Which("rpm") == "" {
 		return fmt.Errorf("This utility requires rpm")
