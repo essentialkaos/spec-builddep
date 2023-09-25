@@ -78,6 +78,7 @@ Options
   --actual, -A               Install the latest versions of all packages
   --clean, -C                Clean package manager cache before install
   --define, -D macro         Define a macro for spec file parsing (mergeble)
+  --exclude, -x package      Exclude packages by name or glob (mergeble)
   --enablerepo, -ER repo     Enable additional repositories (mergeble)
   --disablerepo, -DR repo    Disable repositories (mergeble)
   --no-color, -nc            Disable colors in output
@@ -89,7 +90,7 @@ Examples
   spec-builddep -L nginx.spec
   List all required build dependencies from nginx spec
 
-  spec-builddep nginx.spec
+  spec-builddep nginx.spec -ER epel-testing -ER kaos-testing
   Install packages required for building nginx package
 
   spec-builddep --clean --actual nginx.spec

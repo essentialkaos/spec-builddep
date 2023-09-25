@@ -31,7 +31,7 @@ import (
 // Basic utility info
 const (
 	APP  = "spec-builddep"
-	VER  = "0.0.1"
+	VER  = "0.0.2"
 	DESC = "Utility for installing dependencies for building an RPM package"
 )
 
@@ -48,6 +48,7 @@ const (
 
 	OPT_QUIET       = "q:quiet"
 	OPT_DEFINE      = "D:define"
+	OPT_EXCLUDE     = "x:exclude"
 	OPT_ENABLEREPO  = "ER:enablerepo"
 	OPT_DISABLEREPO = "DR:disablerepo"
 
@@ -69,6 +70,7 @@ var optMap = options.Map{
 
 	OPT_QUIET:       {Type: options.BOOL},
 	OPT_DEFINE:      {Mergeble: true},
+	OPT_EXCLUDE:     {Mergeble: true},
 	OPT_ENABLEREPO:  {Mergeble: true},
 	OPT_DISABLEREPO: {Mergeble: true},
 
@@ -250,6 +252,7 @@ func genUsage() *usage.Info {
 	info.AddOption(OPT_ACTUAL, "Install the latest versions of all packages")
 	info.AddOption(OPT_CLEAN, "Clean package manager cache before install")
 	info.AddOption(OPT_DEFINE, "Define a macro for spec file parsing {s-}(mergeble){!}", "macro")
+	info.AddOption(OPT_EXCLUDE, "Exclude packages by name or glob {s-}(mergeble){!}", "package")
 	info.AddOption(OPT_ENABLEREPO, "Enable additional repositories {s-}(mergeble){!}", "repo")
 	info.AddOption(OPT_DISABLEREPO, "Disable repositories {s-}(mergeble){!}", "repo")
 	info.AddOption(OPT_NO_COLOR, "Disable colors in output")
@@ -262,7 +265,7 @@ func genUsage() *usage.Info {
 	)
 
 	info.AddExample(
-		"nginx.spec",
+		"nginx.spec -ER epel-testing -ER kaos-testing",
 		"Install packages required for building nginx package",
 	)
 
