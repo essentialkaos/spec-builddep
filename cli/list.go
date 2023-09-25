@@ -42,7 +42,7 @@ func listDeps(specFile string) error {
 
 // printDepList prints pretty list with required dependencies
 func printDepList(deps spec.BuildDeps) {
-	installed := rpm.Versions(deps.Names())
+	installed := rpm.Versions(deps.Names(false))
 
 	fmtc.NewLine()
 

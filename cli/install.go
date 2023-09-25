@@ -77,7 +77,7 @@ func filterRequiredDeps(deps spec.BuildDeps) spec.BuildDeps {
 
 	var result spec.BuildDeps
 
-	installed := rpm.Versions(deps.Names())
+	installed := rpm.Versions(deps.Names(false))
 
 	for _, dep := range deps {
 		ver, ok := installed[dep.Name]
@@ -147,7 +147,7 @@ func installPackages(deps spec.BuildDeps, total int) error {
 
 	fmtc.If(!quiet).Printf(
 		"{*}Installing {s}(%d/%d){!}: %s…\n\n",
-		len(deps), total, strings.Join(deps.Names(), ", "),
+		len(deps), total, strings.Join(deps.Names(false), ", "),
 	)
 
 	cmd := exec.Command(getPackageManager())
@@ -159,7 +159,7 @@ func installPackages(deps spec.BuildDeps, total int) error {
 
 	cmd.Args = append(cmd.Args, genPackageManagerOptions()...)
 	cmd.Args = append(cmd.Args, "--assumeyes", "install")
-	cmd.Args = append(cmd.Args, deps.Slice()...)
+	cmd.Args = append(cmd.Args, deps.Names(true)...)
 
 	err := cmd.Run()
 
