@@ -202,5 +202,9 @@ func genPackageManagerOptions() []string {
 		result = append(result, "--define="+macro)
 	}
 
+	for _, pkg := range options.Split(OPT_EXCLUDE) {
+		result = append(result, "--exclude="+pkg)
+	}
+
 	return result
 }
