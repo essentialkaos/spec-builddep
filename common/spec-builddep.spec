@@ -6,7 +6,7 @@
 
 Summary:        Utility for installing dependencies for building an RPM package
 Name:           spec-builddep
-Version:        0.0.2
+Version:        0.0.3
 Release:        0%{?dist}
 Group:          Applications/System
 License:        Apache License, Version 2.0
@@ -96,6 +96,10 @@ fi
 ################################################################################
 
 %changelog
+* Mon Sep 25 2023 Anton Novojilov <andy@essentialkaos.com> - 0.0.3-0
+- Fixed check for rpm-build
+- Added exit code of yum/dnf to error message about failed install
+
 * Mon Sep 25 2023 Anton Novojilov <andy@essentialkaos.com> - 0.0.2-0
 - Add '--exclude' option support
 
