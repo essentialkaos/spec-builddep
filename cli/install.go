@@ -170,7 +170,7 @@ func installPackages(deps spec.BuildDeps, total int) error {
 	fmtc.If(!quiet).NewLine()
 
 	if err != nil {
-		return fmt.Errorf("Installation finished with error")
+		return fmt.Errorf("Installation finished with error (exit code: %d)", cmd.ProcessState.ExitCode())
 	}
 
 	return nil
