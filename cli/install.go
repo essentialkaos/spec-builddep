@@ -47,7 +47,9 @@ func installDeps(specFile string) error {
 	depsToInstall := filterRequiredDeps(deps)
 
 	if len(depsToInstall) == 0 {
-		fmtc.If(!quiet).Println("{g}All required packages already installed{!}")
+		fmtc.If(!quiet).Printf(
+			"{g}All required packages (%d) already installed{!}\n", len(deps),
+		)
 		return nil
 	}
 
@@ -160,6 +162,8 @@ func installPackages(deps spec.BuildDeps, total int) error {
 	cmd.Args = append(cmd.Args, genPackageManagerOptions()...)
 	cmd.Args = append(cmd.Args, "--assumeyes", "install")
 	cmd.Args = append(cmd.Args, deps.Names(true)...)
+
+	fmtc.If(!quiet).Printf("{s-}Command → %s\n\n", strings.Join(cmd.Args, " "))
 
 	err := cmd.Run()
 
