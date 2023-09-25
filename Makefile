@@ -19,7 +19,7 @@ GITREV ?= $(shell test -s $(MAKEDIR)/.git && git rev-parse --short HEAD)
 ################################################################################
 
 .DEFAULT_GOAL := help
-.PHONY = fmt vet all clean deps update init vendor mod-init mod-update mod-download mod-vendor help
+.PHONY = fmt vet all clean deps update test init vendor mod-init mod-update mod-download mod-vendor help
 
 ################################################################################
 
@@ -41,6 +41,13 @@ deps: mod-download ## Download dependencies
 update: mod-update ## Update dependencies to the latest versions
 
 vendor: mod-vendor ## Make vendored copy of dependencies
+
+test: ## Run tests
+ifdef COVERAGE_FILE ## Save coverage data into file (String)
+		go test $(VERBOSE_FLAG) -covermode=count -coverprofile=$(COVERAGE_FILE) ./spec
+else
+		go test $(VERBOSE_FLAG) -covermode=count ./spec
+endif
 
 mod-init:
 ifdef MODULE_PATH ## Module path for initialization (String)

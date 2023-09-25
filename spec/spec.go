@@ -58,10 +58,12 @@ func GetDeps(spec string) (BuildDeps, error) {
 	}
 
 	cmd := exec.Command("rpmspec", "-P", spec)
-	data, err := cmd.Output()
+	data, err := cmd.CombinedOutput()
 
 	if err != nil {
-		return nil, err
+		errText := strings.ReplaceAll(string(data), "\n", "")
+		errText = strings.Replace(errText, "error: ", "", 1)
+		return nil, fmt.Errorf("Spec parsing error: %s", errText)
 	}
 
 	return extractBuildDeps(data), nil
@@ -70,30 +72,15 @@ func GetDeps(spec string) (BuildDeps, error) {
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 // Names returns slice with dependencies names
-func (d BuildDeps) Names() []string {
+func (d BuildDeps) Names(withVersion bool) []string {
 	var result []string
 
 	for _, dep := range d {
-		result = append(result, dep.Name)
-	}
-
-	return result
-}
-
-// Slice returns slice with dependencies for using in dnf/yum
-func (d BuildDeps) Slice() []string {
-	var result []string
-
-	for _, dep := range d {
-		if strings.Contains(dep.Name, "/") {
-			continue
-		}
-
-		if dep.Version == "" {
+		if dep.Version == "" || !withVersion {
 			result = append(result, dep.Name)
 		} else {
 			result = append(result, fmt.Sprintf(
-				"%s %s %s", dep.Name, dep.Cond, dep.Version,
+				"%s %s %s", dep.Name, dep.Cond.Clause(), dep.Version,
 			))
 		}
 	}
@@ -168,10 +155,6 @@ func extractBuildDeps(data []byte) []BuildDep {
 		line = strings.TrimRight(line, " \n\r")
 		line = strings.ReplaceAll(line, "BuildRequires:", "")
 		line = strings.TrimLeft(line, " \t")
-
-		if strings.HasPrefix(line, "#") {
-			continue
-		}
 
 		result = append(result, parseDepsLine(line)...)
 	}
