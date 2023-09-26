@@ -31,7 +31,7 @@ import (
 // Basic utility info
 const (
 	APP  = "spec-builddep"
-	VER  = "0.0.2"
+	VER  = "0.0.3"
 	DESC = "Utility for installing dependencies for building an RPM package"
 )
 
@@ -170,7 +170,7 @@ func checkSystem() error {
 		return fmt.Errorf("This utility requires rpm")
 	}
 
-	if env.Which("rpm") == "" {
+	if env.Which("rpmspec") == "" {
 		return fmt.Errorf("This utility requires rpmspec (part of rpm-build)")
 	}
 
