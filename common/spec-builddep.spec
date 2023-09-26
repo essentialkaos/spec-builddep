@@ -97,6 +97,7 @@ fi
 
 %changelog
 * Mon Sep 25 2023 Anton Novojilov <andy@essentialkaos.com> - 0.0.3-0
+- Added dependencies deduplication
 - Fixed check for rpm-build
 - Added exit code of yum/dnf to error message about failed install
 
