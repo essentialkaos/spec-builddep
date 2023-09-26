@@ -17,7 +17,7 @@ URL:                https://domain.com
 
 BuildRequires:      postgresql%{pg_ver}-devel = %{pg_fullver}
 BuildRequires:      make gcc zlib-devel >= 1.2.11 readline-devel <= 7
-BuildRequires:      python < 3 perl > 5 bash = 4
+BuildRequires:      python < 3 perl > 5 bash = 4 gcc make
 BuildRequires:      perl(ExtUtils::Embed) python3dist(setuptools)
 # BuildRequires:    gdal-devel gcc-c++ >= 8
 

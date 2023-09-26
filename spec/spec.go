@@ -15,6 +15,7 @@ import (
 	"strings"
 
 	"github.com/essentialkaos/ek/v12/fsutil"
+	"github.com/essentialkaos/ek/v12/sliceutil"
 	"github.com/essentialkaos/ek/v12/sortutil"
 	"github.com/essentialkaos/ek/v12/strutil"
 )
@@ -161,7 +162,7 @@ func extractBuildDeps(data []byte) []BuildDep {
 
 	sort.Sort(result)
 
-	return result
+	return sliceutil.Deduplicate(result)
 }
 
 // parseDepsLine parses line with one or more dependencies

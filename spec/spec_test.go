@@ -28,7 +28,7 @@ var _ = Suite(&SpecSuite{})
 func (s *SpecSuite) TestGetDeps(c *C) {
 	deps, err := GetDeps("../testdata/test.spec")
 	c.Assert(err, IsNil)
-	c.Assert(deps, HasLen, 10)
+	c.Assert(len(deps), Equals, 10)
 
 	c.Assert(deps.Names(false), DeepEquals, []string{
 		"bash", "gcc", "make", "perl", "perl(ExtUtils::Embed)",
