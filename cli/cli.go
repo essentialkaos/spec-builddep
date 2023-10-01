@@ -31,7 +31,7 @@ import (
 // Basic utility info
 const (
 	APP  = "spec-builddep"
-	VER  = "0.0.3"
+	VER  = "0.1.0"
 	DESC = "Utility for installing dependencies for building an RPM package"
 )
 

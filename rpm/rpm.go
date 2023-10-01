@@ -17,23 +17,20 @@ import (
 
 // Versions returns map with versions of installed packages
 func Versions(packages []string) map[string]string {
-	return getPackagesVersions(packages, getNormNames(packages))
+	return getPackagesVersions(packages, getRealNames(packages))
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
-func getNormNames(packages []string) []string {
-	if !hasVirtualPackages(packages) {
-		return packages
-	}
-
-	virtualNames := normalizeVirtualPackagesNames(getVirtualPackages(packages))
+// getRealNames returns slice with real packages names
+func getRealNames(packages []string) []string {
+	realNames := getRealPackagesNames(packages)
 
 	var result []string
 
 	for _, p := range packages {
-		if virtualNames[p] != "" {
-			result = append(result, virtualNames[p])
+		if realNames[p] != "" {
+			result = append(result, realNames[p])
 		} else {
 			result = append(result, p)
 		}
@@ -42,34 +39,8 @@ func getNormNames(packages []string) []string {
 	return result
 }
 
-// hasVirtualPackages returns true if slice with packages names contains virtual
-// packages
-func hasVirtualPackages(packages []string) bool {
-	for _, p := range packages {
-		if strings.ContainsRune(p, '(') {
-			return true
-		}
-	}
-
-	return false
-}
-
-// getVirtualPackages returns slice with virtual packages
-func getVirtualPackages(packages []string) []string {
-	var result []string
-
-	for _, p := range packages {
-		if strings.ContainsRune(p, '(') {
-			result = append(result, p)
-		}
-	}
-
-	return result
-}
-
-// normalizeVirtualPackagesNames normalizes virtual packages names
-// (e.g. python3dist(setuptools) → platform-python-setuptools)
-func normalizeVirtualPackagesNames(packages []string) map[string]string {
+// getRealPackagesNames returns map package name → real package name
+func getRealPackagesNames(packages []string) map[string]string {
 	result := map[string]string{}
 
 	cmd := exec.Command("rpm", "-q", "--whatprovides", "--qf", "%{name}\n")
@@ -100,11 +71,11 @@ func normalizeVirtualPackagesNames(packages []string) map[string]string {
 }
 
 // getPackagesVersions returns map with installed packages versions
-func getPackagesVersions(packages, normPackages []string) map[string]string {
+func getPackagesVersions(packages, realPackages []string) map[string]string {
 	result := map[string]string{}
 
 	cmd := exec.Command("rpm", "-q", "--qf", "%{version}\n")
-	cmd.Args = append(cmd.Args, normPackages...)
+	cmd.Args = append(cmd.Args, realPackages...)
 	data, _ := cmd.Output()
 
 	if len(data) == 0 {
