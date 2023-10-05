@@ -11,6 +11,8 @@ import (
 	"bytes"
 	"os/exec"
 	"strings"
+
+	"github.com/essentialkaos/ek/v12/sliceutil"
 )
 
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -45,26 +47,20 @@ func getRealPackagesNames(packages []string) map[string]string {
 
 	cmd := exec.Command("rpm", "-q", "--whatprovides", "--qf", "%{name}\n")
 	cmd.Args = append(cmd.Args, packages...)
-	data, _ := cmd.Output()
+	data, _ := cmd.CombinedOutput()
 
 	if len(data) == 0 {
 		return result
 	}
 
-	buf := bytes.NewBuffer(data)
+	lines := sliceutil.Deduplicate(strings.Split(string(data), "\n"))
 
 	for i := 0; i < len(packages); i++ {
-		line, err := buf.ReadString('\n')
-
-		if err != nil {
-			break
-		}
-
-		if strings.Contains(line, " ") {
+		if strings.Contains(lines[i], " ") {
 			continue
 		}
 
-		result[packages[i]] = strings.Trim(line, "\n\r")
+		result[packages[i]] = lines[i]
 	}
 
 	return result
@@ -74,9 +70,9 @@ func getRealPackagesNames(packages []string) map[string]string {
 func getPackagesVersions(packages, realPackages []string) map[string]string {
 	result := map[string]string{}
 
-	cmd := exec.Command("rpm", "-q", "--qf", "%{version}\n")
+	cmd := exec.Command("rpm", "-q", "--qf", "%{name} %{version}\n")
 	cmd.Args = append(cmd.Args, realPackages...)
-	data, _ := cmd.Output()
+	data, _ := cmd.CombinedOutput()
 
 	if len(data) == 0 {
 		return result
@@ -84,18 +80,19 @@ func getPackagesVersions(packages, realPackages []string) map[string]string {
 
 	buf := bytes.NewBuffer(data)
 
-	for i := 0; i < len(packages); i++ {
+	for {
 		line, err := buf.ReadString('\n')
 
 		if err != nil {
 			break
 		}
 
-		if strings.Contains(line, " ") {
+		if strings.Count(line, " ") > 1 {
 			continue
 		}
 
-		result[packages[i]] = strings.Trim(line, "\n\r")
+		name, version, _ := strings.Cut(line, " ")
+		result[name] = strings.Trim(version, "\n\r")
 	}
 
 	return result
