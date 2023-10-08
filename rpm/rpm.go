@@ -9,7 +9,6 @@ package rpm
 
 import (
 	"bytes"
-	"fmt"
 	"os/exec"
 	"strings"
 
@@ -38,8 +37,6 @@ func normalizePackageNames(packages []string) ([]string, *pkgIndex) {
 	var result []string
 
 	index := getIndex(packages)
-
-	fmt.Println(index)
 
 	for _, p := range packages {
 		if index.ByName[p] != "" {
@@ -107,8 +104,6 @@ func getVersions(packages []string, index *pkgIndex) map[string]string {
 		}
 
 		name, version, _ := strings.Cut(line, " ")
-
-		fmt.Println(name, version, index.ByProvides[name])
 
 		if index.ByProvides[name] == "" {
 			result[name] = strings.Trim(version, "\n\r")
