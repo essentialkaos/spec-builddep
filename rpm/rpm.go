@@ -17,40 +17,51 @@ import (
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
-// Versions returns map with versions of installed packages
-func Versions(packages []string) map[string]string {
-	return getPackagesVersions(packages, getRealNames(packages))
+type pkgIndex struct {
+	ByName     map[string]string
+	ByProvides map[string]string
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
-// getRealNames returns slice with real packages names
-func getRealNames(packages []string) []string {
-	realNames := getRealPackagesNames(packages)
+// Versions returns map with versions of installed packages
+func Versions(packages []string) map[string]string {
+	packages, index := normalizePackageNames(packages)
+	return getVersions(packages, index)
+}
 
+// ////////////////////////////////////////////////////////////////////////////////// //
+
+// normalizePackageNames normalizes packages names
+func normalizePackageNames(packages []string) ([]string, *pkgIndex) {
 	var result []string
 
+	index := getIndex(packages)
+
 	for _, p := range packages {
-		if realNames[p] != "" {
-			result = append(result, realNames[p])
+		if index.ByName[p] != "" {
+			result = append(result, index.ByName[p])
 		} else {
 			result = append(result, p)
 		}
 	}
 
-	return result
+	return result, index
 }
 
-// getRealPackagesNames returns map package name → real package name
-func getRealPackagesNames(packages []string) map[string]string {
-	result := map[string]string{}
+// getIndex returns index with given packages names and provided packages names
+func getIndex(packages []string) *pkgIndex {
+	index := &pkgIndex{
+		ByName:     make(map[string]string),
+		ByProvides: make(map[string]string),
+	}
 
 	cmd := exec.Command("rpm", "-q", "--whatprovides", "--qf", "%{name}\n")
 	cmd.Args = append(cmd.Args, packages...)
 	data, _ := cmd.CombinedOutput()
 
 	if len(data) == 0 {
-		return result
+		return index
 	}
 
 	lines := sliceutil.Deduplicate(strings.Split(string(data), "\n"))
@@ -60,18 +71,19 @@ func getRealPackagesNames(packages []string) map[string]string {
 			continue
 		}
 
-		result[packages[i]] = lines[i]
+		index.ByName[packages[i]] = lines[i]
+		index.ByProvides[lines[i]] = packages[i]
 	}
 
-	return result
+	return index
 }
 
-// getPackagesVersions returns map with installed packages versions
-func getPackagesVersions(packages, realPackages []string) map[string]string {
+// getVersions returns map with versions info for installed packages
+func getVersions(packages []string, index *pkgIndex) map[string]string {
 	result := map[string]string{}
 
 	cmd := exec.Command("rpm", "-q", "--qf", "%{name} %{version}\n")
-	cmd.Args = append(cmd.Args, realPackages...)
+	cmd.Args = append(cmd.Args, packages...)
 	data, _ := cmd.CombinedOutput()
 
 	if len(data) == 0 {
@@ -92,7 +104,12 @@ func getPackagesVersions(packages, realPackages []string) map[string]string {
 		}
 
 		name, version, _ := strings.Cut(line, " ")
-		result[name] = strings.Trim(version, "\n\r")
+
+		if index.ByProvides[name] == "" {
+			result[name] = strings.Trim(version, "\n\r")
+		} else {
+			result[index.ByProvides[name]] = strings.Trim(version, "\n\r")
+		}
 	}
 
 	return result
