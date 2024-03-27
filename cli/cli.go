@@ -10,20 +10,21 @@ package app
 import (
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/essentialkaos/ek/v12/env"
 	"github.com/essentialkaos/ek/v12/fmtc"
 	"github.com/essentialkaos/ek/v12/fsutil"
 	"github.com/essentialkaos/ek/v12/options"
+	"github.com/essentialkaos/ek/v12/support"
+	"github.com/essentialkaos/ek/v12/support/deps"
+	"github.com/essentialkaos/ek/v12/support/pkgs"
+	"github.com/essentialkaos/ek/v12/terminal/tty"
 	"github.com/essentialkaos/ek/v12/usage"
 	"github.com/essentialkaos/ek/v12/usage/completion/bash"
 	"github.com/essentialkaos/ek/v12/usage/completion/fish"
 	"github.com/essentialkaos/ek/v12/usage/completion/zsh"
 	"github.com/essentialkaos/ek/v12/usage/man"
 	"github.com/essentialkaos/ek/v12/usage/update"
-
-	"github.com/essentialkaos/spec-builddep/cli/support"
 )
 
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -31,7 +32,7 @@ import (
 // Basic utility info
 const (
 	APP  = "spec-builddep"
-	VER  = "0.1.3"
+	VER  = "1.0.0"
 	DESC = "Utility for installing dependencies for building an RPM package"
 )
 
@@ -108,7 +109,11 @@ func Run(gitRev string, gomod []byte) {
 		genAbout(gitRev).Print(options.GetS(OPT_VER))
 		os.Exit(0)
 	case options.GetB(OPT_VERB_VER):
-		support.Print(APP, VER, gitRev, gomod)
+		support.Collect(APP, VER).
+			WithRevision(gitRev).
+			WithDeps(deps.Extract(gomod)).
+			WithPackages(pkgs.Collect("dnf,yum", "rpm", "rpmspec")).
+			Print()
 		os.Exit(0)
 	case options.GetB(OPT_HELP) || len(args) == 0:
 		genUsage().Print()
@@ -134,26 +139,9 @@ func Run(gitRev string, gomod []byte) {
 
 // preConfigureUI preconfigures UI based on information about user terminal
 func preConfigureUI() {
-	term := os.Getenv("TERM")
-
-	fmtc.DisableColors = true
-
-	if term != "" {
-		switch {
-		case strings.Contains(term, "xterm"),
-			strings.Contains(term, "color"),
-			term == "screen":
-			fmtc.DisableColors = false
-		}
-	}
-
-	if !fsutil.IsCharacterDevice("/dev/stdout") && os.Getenv("FAKETTY") == "" {
+	if !tty.IsTTY() {
 		fmtc.DisableColors = true
 		useRawOutput = true
-	}
-
-	if os.Getenv("NO_COLOR") != "" {
-		fmtc.DisableColors = true
 	}
 }
 
@@ -205,15 +193,6 @@ func printError(f string, a ...interface{}) {
 	}
 }
 
-// printError prints warning message to console
-func printWarn(f string, a ...interface{}) {
-	if len(a) == 0 {
-		fmtc.Fprintln(os.Stderr, "{y}"+f+"{!}")
-	} else {
-		fmtc.Fprintf(os.Stderr, "{y}"+f+"{!}\n", a...)
-	}
-}
-
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 // printCompletion prints completion for given shell
@@ -222,11 +201,11 @@ func printCompletion() int {
 
 	switch options.GetS(OPT_COMPLETION) {
 	case "bash":
-		fmt.Printf(bash.Generate(info, "spec-builddep"))
+		fmt.Print(bash.Generate(info, "spec-builddep"))
 	case "fish":
-		fmt.Printf(fish.Generate(info, "spec-builddep"))
+		fmt.Print(fish.Generate(info, "spec-builddep"))
 	case "zsh":
-		fmt.Printf(zsh.Generate(info, optMap, "spec-builddep"))
+		fmt.Print(zsh.Generate(info, optMap, "spec-builddep"))
 	default:
 		return 1
 	}
@@ -280,17 +259,17 @@ func genUsage() *usage.Info {
 // genAbout generates info about version
 func genAbout(gitRev string) *usage.About {
 	about := &usage.About{
-		App:           APP,
-		Version:       VER,
-		Desc:          DESC,
-		Year:          2009,
-		Owner:         "ESSENTIAL KAOS",
-		License:       "Apache License, Version 2.0 <https://www.apache.org/licenses/LICENSE-2.0>",
-		UpdateChecker: usage.UpdateChecker{"essentialkaos/spec-builddep", update.GitHubChecker},
+		App:     APP,
+		Version: VER,
+		Desc:    DESC,
+		Year:    2009,
+		Owner:   "ESSENTIAL KAOS",
+		License: "Apache License, Version 2.0 <https://www.apache.org/licenses/LICENSE-2.0>",
 	}
 
 	if gitRev != "" {
 		about.Build = "git:" + gitRev
+		about.UpdateChecker = usage.UpdateChecker{"essentialkaos/spec-builddep", update.GitHubChecker}
 	}
 
 	return about
