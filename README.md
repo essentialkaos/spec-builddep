@@ -1,4 +1,4 @@
-<p align="center"><a href="#readme"><img src="https://gh.kaos.st/spec-builddep.svg"/></a></p>
+<p align="center"><a href="#readme"><img src=".github/images/card.svg"/></a></p>
 
 <p align="center">
   <a href="https://kaos.sh/r/spec-builddep"><img src="https://kaos.sh/r/spec-builddep.svg" alt="GoReportCard" /></a>
@@ -6,7 +6,7 @@
   <a href="https://kaos.sh/b/spec-builddep"><img src="https://kaos.sh/b/e1d77494-93c2-4bd7-aee4-c7898dcb2afa.svg" alt="Codebeat badge" /></a>
   <a href="https://kaos.sh/w/spec-builddep/ci"><img src="https://kaos.sh/w/spec-builddep/ci.svg" alt="GitHub Actions CI Status" /></a>
   <a href="https://kaos.sh/w/spec-builddep/codeql"><img src="https://kaos.sh/w/spec-builddep/codeql.svg" alt="GitHub Actions CodeQL Status" /></a>
-  <a href="#license"><img src="https://gh.kaos.st/apache2.svg"></a>
+  <a href="#license"><img src=".github/images/license.svg"/></a>
 </p>
 
 <p align="center"><a href="#installation">Installation</a> • <a href="#command-line-completion">Command-line completion</a> • <a href="#man-documentation">Man documentation</a> • <a href="#usage">Usage</a> • <a href="#ci-status">CI Status</a> • <a href="#contributing">Contributing</a> • <a href="#license">License</a></p>
@@ -33,7 +33,7 @@ You can download prebuilt binaries for Linux from [EK Apps Repository](https://a
 bash <(curl -fsSL https://apps.kaos.st/get) spec-builddep
 ```
 
-#### From [ESSENTIAL KAOS Public Repository](https://pkgs.kaos.st)
+#### From [ESSENTIAL KAOS Public Repository](https://kaos.sh/kaos-repo)
 
 ```bash
 sudo yum install -y https://pkgs.kaos.st/kaos-repo-latest.el$(grep 'CPE_NAME' /etc/os-release | tr -d '"' | cut -d':' -f5).noarch.rpm
@@ -69,33 +69,7 @@ spec-builddep --generate-man | sudo gzip > /usr/share/man/man1/spec-builddep.1.g
 
 ### Usage
 
-```
-Usage: spec-builddep {options} spec-file
-
-Options
-
-  --list, -L                 List required build dependencies
-  --actual, -A               Install the latest versions of all packages
-  --clean, -C                Clean package manager cache before install
-  --define, -D macro         Define a macro for spec file parsing (mergeble)
-  --exclude, -x package      Exclude packages by name or glob (mergeble)
-  --enablerepo, -ER repo     Enable additional repositories (mergeble)
-  --disablerepo, -DR repo    Disable repositories (mergeble)
-  --no-color, -nc            Disable colors in output
-  --help, -h                 Show this help message
-  --version, -v              Show version
-
-Examples
-
-  spec-builddep -L nginx.spec
-  List all required build dependencies from nginx spec
-
-  spec-builddep nginx.spec -ER epel-testing -ER kaos-testing
-  Install packages required for building nginx package
-
-  spec-builddep --clean --actual nginx.spec
-  Install the latest version of packages required for building nginx package
-```
+<img src=".github/images/usage.svg" />
 
 ### CI Status
 
