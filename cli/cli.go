@@ -114,7 +114,7 @@ func Run(gitRev string, gomod []byte) {
 		support.Collect(APP, VER).
 			WithRevision(gitRev).
 			WithDeps(deps.Extract(gomod)).
-			WithPackages(pkgs.Collect("dnf,yum", "rpm", "rpmspec")).
+			WithPackages(pkgs.Collect("dnf,yum", "rpm", "rpm-build")).
 			Print()
 		os.Exit(0)
 	case options.GetB(OPT_HELP) || len(args) == 0:
