@@ -42,10 +42,8 @@ elif [[ -f "%{name}/%{name}" ]] ; then
 fi
 
 %build
-export CGO_ENABLED=0
-
 pushd %{name}
-  go build %{name}.go
+  %{make_build} all
   cp LICENSE ..
 popd
 

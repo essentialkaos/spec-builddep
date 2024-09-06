@@ -17,6 +17,8 @@ endif
 
 ifdef CGO ## Enable CGO usage (Flag)
 export CGO_ENABLED=1
+else
+export CGO_ENABLED=0
 endif
 
 COMPAT ?= 1.19
