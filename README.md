@@ -3,7 +3,7 @@
 <p align="center">
   <a href="https://kaos.sh/r/spec-builddep"><img src="https://kaos.sh/r/spec-builddep.svg" alt="GoReportCard" /></a>
   <a href="https://kaos.sh/l/spec-builddep"><img src="https://kaos.sh/l/1008b1e64602a52fa7d7.svg" alt="Code Climate Maintainability" /></a>
-  <a href="https://kaos.sh/b/spec-builddep"><img src="https://kaos.sh/b/e1d77494-93c2-4bd7-aee4-c7898dcb2afa.svg" alt="Codebeat badge" /></a>
+  <a href="https://kaos.sh/y/spec-builddep"><img src="https://kaos.sh/y/83c5070ce37641f19d5bf8174847d430.svg" alt="Codacy badge" /></a>
   <a href="https://kaos.sh/w/spec-builddep/ci"><img src="https://kaos.sh/w/spec-builddep/ci.svg" alt="GitHub Actions CI Status" /></a>
   <a href="https://kaos.sh/w/spec-builddep/codeql"><img src="https://kaos.sh/w/spec-builddep/codeql.svg" alt="GitHub Actions CodeQL Status" /></a>
   <a href="#license"><img src=".github/images/license.svg"/></a>
