@@ -6,7 +6,7 @@
 
 Summary:        Utility for installing dependencies for building an RPM package
 Name:           spec-builddep
-Version:        1.0.1
+Version:        1.0.2
 Release:        0%{?dist}
 Group:          Applications/System
 License:        Apache License, Version 2.0
@@ -16,7 +16,7 @@ Source0:        https://source.kaos.st/%{name}/%{name}-%{version}.tar.bz2
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  golang >= 1.21
+BuildRequires:  golang >= 1.22
 
 Requires:       rpm rpm-build
 
@@ -43,7 +43,7 @@ fi
 
 %build
 pushd %{name}
-  go build %{name}.go
+  %{make_build} all
   cp LICENSE ..
 popd
 
@@ -99,6 +99,12 @@ fi
 ################################################################################
 
 %changelog
+* Fri Sep 06 2024 Anton Novojilov <andy@essentialkaos.com> - 1.0.2-0
+- Added support of conditions with typos ('=>', '=<')
+- Package ek updated to v13
+- Code refactoring
+- Dependencies update
+
 * Mon Jun 24 2024 Anton Novojilov <andy@essentialkaos.com> - 1.0.1-0
 - Code refactoring
 - Dependencies update

@@ -11,13 +11,13 @@ import (
 	"bytes"
 	"fmt"
 	"os/exec"
+	"slices"
 	"sort"
 	"strings"
 
-	"github.com/essentialkaos/ek/v12/fsutil"
-	"github.com/essentialkaos/ek/v12/sliceutil"
-	"github.com/essentialkaos/ek/v12/sortutil"
-	"github.com/essentialkaos/ek/v12/strutil"
+	"github.com/essentialkaos/ek/v13/fsutil"
+	"github.com/essentialkaos/ek/v13/sortutil"
+	"github.com/essentialkaos/ek/v13/strutil"
 )
 
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -162,7 +162,7 @@ func extractBuildDeps(data []byte) []BuildDep {
 
 	sort.Sort(result)
 
-	return sliceutil.Deduplicate(result)
+	return slices.Compact(result)
 }
 
 // parseDepsLine parses line with one or more dependencies
@@ -195,11 +195,11 @@ func parseCond(cond string) Cond {
 		return EQ
 	case "<":
 		return LT
-	case "<=":
+	case "<=", "=<":
 		return LE
 	case ">":
 		return GT
-	case ">=":
+	case ">=", "=>":
 		return GE
 	}
 

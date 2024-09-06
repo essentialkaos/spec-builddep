@@ -11,21 +11,21 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/essentialkaos/ek/v12/env"
-	"github.com/essentialkaos/ek/v12/fmtc"
-	"github.com/essentialkaos/ek/v12/fsutil"
-	"github.com/essentialkaos/ek/v12/options"
-	"github.com/essentialkaos/ek/v12/support"
-	"github.com/essentialkaos/ek/v12/support/deps"
-	"github.com/essentialkaos/ek/v12/support/pkgs"
-	"github.com/essentialkaos/ek/v12/terminal"
-	"github.com/essentialkaos/ek/v12/terminal/tty"
-	"github.com/essentialkaos/ek/v12/usage"
-	"github.com/essentialkaos/ek/v12/usage/completion/bash"
-	"github.com/essentialkaos/ek/v12/usage/completion/fish"
-	"github.com/essentialkaos/ek/v12/usage/completion/zsh"
-	"github.com/essentialkaos/ek/v12/usage/man"
-	"github.com/essentialkaos/ek/v12/usage/update"
+	"github.com/essentialkaos/ek/v13/env"
+	"github.com/essentialkaos/ek/v13/fmtc"
+	"github.com/essentialkaos/ek/v13/fsutil"
+	"github.com/essentialkaos/ek/v13/options"
+	"github.com/essentialkaos/ek/v13/support"
+	"github.com/essentialkaos/ek/v13/support/deps"
+	"github.com/essentialkaos/ek/v13/support/pkgs"
+	"github.com/essentialkaos/ek/v13/terminal"
+	"github.com/essentialkaos/ek/v13/terminal/tty"
+	"github.com/essentialkaos/ek/v13/usage"
+	"github.com/essentialkaos/ek/v13/usage/completion/bash"
+	"github.com/essentialkaos/ek/v13/usage/completion/fish"
+	"github.com/essentialkaos/ek/v13/usage/completion/zsh"
+	"github.com/essentialkaos/ek/v13/usage/man"
+	"github.com/essentialkaos/ek/v13/usage/update"
 )
 
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -33,7 +33,7 @@ import (
 // Basic utility info
 const (
 	APP  = "spec-builddep"
-	VER  = "1.0.1"
+	VER  = "1.0.2"
 	DESC = "Utility for installing dependencies for building an RPM package"
 )
 
@@ -114,7 +114,7 @@ func Run(gitRev string, gomod []byte) {
 		support.Collect(APP, VER).
 			WithRevision(gitRev).
 			WithDeps(deps.Extract(gomod)).
-			WithPackages(pkgs.Collect("dnf,yum", "rpm", "rpmspec")).
+			WithPackages(pkgs.Collect("dnf,yum", "rpm", "rpm-build")).
 			Print()
 		os.Exit(0)
 	case options.GetB(OPT_HELP) || len(args) == 0:
