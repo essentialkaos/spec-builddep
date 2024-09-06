@@ -195,11 +195,11 @@ func parseCond(cond string) Cond {
 		return EQ
 	case "<":
 		return LT
-	case "<=":
+	case "<=", "=<":
 		return LE
 	case ">":
 		return GT
-	case ">=":
+	case ">=", "=>":
 		return GE
 	}
 
