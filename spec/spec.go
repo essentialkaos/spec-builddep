@@ -62,10 +62,12 @@ func GetDeps(spec string, macros []string) (BuildDeps, error) {
 
 	if len(macros) != 0 {
 		for _, macro := range macros {
-			cmd.Args = append(
-				cmd.Args, "--define",
-				strutil.ReplaceAll(macro, ":=", " "),
-			)
+			for _, submacro := range strutil.Fields(macro) {
+				cmd.Args = append(
+					cmd.Args, "--define",
+					strutil.ReplaceAll(submacro, ":=", " "),
+				)
+			}
 		}
 	}
 
