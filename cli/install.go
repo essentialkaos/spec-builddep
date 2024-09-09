@@ -37,7 +37,7 @@ func installDeps(specFile string) error {
 		return fmt.Errorf("Superuser (root) permissions is required to install packages")
 	}
 
-	deps, err := spec.GetDeps(specFile)
+	deps, err := spec.GetDeps(specFile, options.Split(OPT_DEFINE))
 
 	if err != nil {
 		return err
@@ -196,10 +196,6 @@ func genPackageManagerOptions() []string {
 
 	for _, repo := range options.Split(OPT_DISABLEREPO) {
 		result = append(result, "--disablerepo="+repo)
-	}
-
-	for _, macro := range options.Split(OPT_DEFINE) {
-		result = append(result, "--define="+macro)
 	}
 
 	for _, pkg := range options.Split(OPT_EXCLUDE) {
