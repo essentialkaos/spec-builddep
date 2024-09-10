@@ -33,7 +33,7 @@ import (
 // Basic utility info
 const (
 	APP  = "spec-builddep"
-	VER  = "1.0.2"
+	VER  = "1.0.3"
 	DESC = "Utility for installing dependencies for building an RPM package"
 )
 
@@ -227,18 +227,23 @@ func genUsage() *usage.Info {
 	info.AddOption(OPT_VER, "Show version")
 
 	info.AddExample(
-		"-L nginx.spec",
-		"List all required build dependencies from nginx spec",
+		"-L app.spec",
+		"List all required build dependencies from the spec",
 	)
 
 	info.AddExample(
-		"nginx.spec -ER epel-testing -ER kaos-testing",
-		"Install packages required for building nginx package",
+		"app.spec -ER epel-testing -ER kaos-testing",
+		"Enable some repos and install required packages",
 	)
 
 	info.AddExample(
-		"--clean --actual nginx.spec",
-		"Install the latest version of packages required for building nginx package",
+		"-A -C app.spec",
+		"Install the latest version of required packages",
+	)
+
+	info.AddExample(
+		"-D '_ver:3.1.8' -D '_git:aa7bbf8' app.spec",
+		"Define some macro values and install required packages",
 	)
 
 	return info

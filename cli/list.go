@@ -9,6 +9,7 @@ package app
 
 import (
 	"github.com/essentialkaos/ek/v13/fmtc"
+	"github.com/essentialkaos/ek/v13/options"
 
 	"github.com/essentialkaos/spec-builddep/rpm"
 	"github.com/essentialkaos/spec-builddep/spec"
@@ -18,7 +19,7 @@ import (
 
 // listDeps prints list with required dependencies
 func listDeps(specFile string) error {
-	deps, err := spec.GetDeps(specFile)
+	deps, err := spec.GetDeps(specFile, options.Split(OPT_DEFINE))
 
 	if err != nil {
 		return err

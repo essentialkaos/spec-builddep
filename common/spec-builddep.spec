@@ -6,7 +6,7 @@
 
 Summary:        Utility for installing dependencies for building an RPM package
 Name:           spec-builddep
-Version:        1.0.2
+Version:        1.0.3
 Release:        0%{?dist}
 Group:          Applications/System
 License:        Apache License, Version 2.0
@@ -99,6 +99,9 @@ fi
 ################################################################################
 
 %changelog
+* Tue Sep 10 2024 Anton Novojilov <andy@essentialkaos.com> - 1.0.3-0
+- Fixed bug with handling defined macro
+
 * Fri Sep 06 2024 Anton Novojilov <andy@essentialkaos.com> - 1.0.2-0
 - Added support of conditions with typos ('=>', '=<')
 - Package ek updated to v13

@@ -51,7 +51,7 @@ func (p BuildDeps) Less(i, j int) bool { return sortutil.NaturalLess(p[i].Name, 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 // GetDeps returns slice with build dependencies from given spec file
-func GetDeps(spec string) (BuildDeps, error) {
+func GetDeps(spec string, macros []string) (BuildDeps, error) {
 	err := fsutil.ValidatePerms("FRS", spec)
 
 	if err != nil {
@@ -59,6 +59,18 @@ func GetDeps(spec string) (BuildDeps, error) {
 	}
 
 	cmd := exec.Command("rpmspec", "-P", spec)
+
+	if len(macros) != 0 {
+		for _, macro := range macros {
+			for _, submacro := range strutil.Fields(macro) {
+				cmd.Args = append(
+					cmd.Args, "--define",
+					strutil.ReplaceAll(submacro, ":=", " "),
+				)
+			}
+		}
+	}
+
 	data, err := cmd.CombinedOutput()
 
 	if err != nil {
