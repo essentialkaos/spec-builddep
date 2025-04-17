@@ -98,7 +98,7 @@ func Run(gitRev string, gomod []byte) {
 
 	if !errs.IsEmpty() {
 		terminal.Error("Options parsing errors:")
-		terminal.Error(errs.Error("- "))
+		terminal.Error(errs.Error(" - "))
 		os.Exit(1)
 	}
 
@@ -238,11 +238,11 @@ func genUsage() *usage.Info {
 	info.AddOption(OPT_LIST, "List required build dependencies")
 	info.AddOption(OPT_ACTUAL, "Install the latest versions of all packages")
 	info.AddOption(OPT_CLEAN, "Clean package manager cache before install")
-	info.AddOption(OPT_QUIET, "Quiet mode {s}(don't output anything){!}")
 	info.AddOption(OPT_DEFINE, "Define a macro for spec file parsing {s-}(mergeble){!}", "macro")
 	info.AddOption(OPT_EXCLUDE, "Exclude packages by name or glob {s-}(mergeble){!}", "package")
 	info.AddOption(OPT_ENABLEREPO, "Enable additional repositories {s-}(mergeble){!}", "repo")
 	info.AddOption(OPT_DISABLEREPO, "Disable repositories {s-}(mergeble){!}", "repo")
+	info.AddOption(OPT_QUIET, "Quiet mode {s}(don't output anything){!}")
 	info.AddOption(OPT_NO_COLOR, "Disable colors in output")
 	info.AddOption(OPT_HELP, "Show this help message")
 	info.AddOption(OPT_VER, "Show version")
