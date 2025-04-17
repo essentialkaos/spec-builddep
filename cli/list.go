@@ -2,7 +2,7 @@ package app
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 //                                                                                    //
-//                         Copyright (c) 2024 ESSENTIAL KAOS                          //
+//                         Copyright (c) 2025 ESSENTIAL KAOS                          //
 //      Apache License, Version 2.0 <https://www.apache.org/licenses/LICENSE-2.0>     //
 //                                                                                    //
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -26,7 +26,7 @@ func listDeps(specFile string) error {
 	}
 
 	if len(deps) == 0 {
-		fmtc.Printf("{g}Spec file %s has no dependencies{!}", specFile)
+		fmtc.Printfn("{g}Spec file %s has no dependencies{!}", specFile)
 		return nil
 	}
 
@@ -74,9 +74,9 @@ func printDepList(deps spec.BuildDeps) {
 func printRawDepList(deps spec.BuildDeps) {
 	for _, dep := range deps {
 		if dep.Version != "" {
-			fmtc.Printf("%s %s %s\n", dep.Name, dep.Cond, dep.Version)
+			fmtc.Printfn("%s %s %s", dep.Name, dep.Cond, dep.Version)
 		} else {
-			fmtc.Printf("%s\n", dep.Name)
+			fmtc.Printfn("%s", dep.Name)
 		}
 	}
 }

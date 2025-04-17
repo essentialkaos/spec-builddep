@@ -2,7 +2,7 @@ package app
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 //                                                                                    //
-//                         Copyright (c) 2024 ESSENTIAL KAOS                          //
+//                         Copyright (c) 2025 ESSENTIAL KAOS                          //
 //      Apache License, Version 2.0 <https://www.apache.org/licenses/LICENSE-2.0>     //
 //                                                                                    //
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -33,7 +33,7 @@ import (
 // Basic utility info
 const (
 	APP  = "spec-builddep"
-	VER  = "1.0.3"
+	VER  = "1.1.0"
 	DESC = "Utility for installing dependencies for building an RPM package"
 )
 
@@ -84,6 +84,9 @@ var optMap = options.Map{
 // useRawOutput is raw output flag (for cli command)
 var useRawOutput = false
 
+// application name and version color tags
+var colorTagApp, colorTagVer string
+
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 // Run is main utility function
@@ -95,7 +98,7 @@ func Run(gitRev string, gomod []byte) {
 
 	if !errs.IsEmpty() {
 		terminal.Error("Options parsing errors:")
-		terminal.Error(errs.String())
+		terminal.Error(errs.Error(" - "))
 		os.Exit(1)
 	}
 
@@ -125,14 +128,20 @@ func Run(gitRev string, gomod []byte) {
 	err := checkSystem()
 
 	if err != nil {
-		terminal.Error(err)
+		if !options.GetB(OPT_QUIET) {
+			terminal.Error(err)
+		}
+
 		os.Exit(1)
 	}
 
 	err = process(args)
 
 	if err != nil {
-		terminal.Error(err)
+		if !options.GetB(OPT_QUIET) {
+			terminal.Error(err)
+		}
+
 		os.Exit(1)
 	}
 }
@@ -144,6 +153,15 @@ func preConfigureUI() {
 	if !tty.IsTTY() {
 		fmtc.DisableColors = true
 		useRawOutput = true
+	}
+
+	switch {
+	case fmtc.Is256ColorsSupported():
+		colorTagApp, colorTagVer = "{*}{#99}", "{#99}"
+		fmtc.AddColor("primary", "{#99}")
+	default:
+		colorTagApp, colorTagVer = "{*}{c}", "{c}"
+		fmtc.AddColor("primary", "{c}")
 	}
 }
 
@@ -215,6 +233,8 @@ func printMan() {
 func genUsage() *usage.Info {
 	info := usage.NewInfo("", "spec-file")
 
+	info.AppNameColorTag = colorTagApp
+
 	info.AddOption(OPT_LIST, "List required build dependencies")
 	info.AddOption(OPT_ACTUAL, "Install the latest versions of all packages")
 	info.AddOption(OPT_CLEAN, "Clean package manager cache before install")
@@ -222,6 +242,7 @@ func genUsage() *usage.Info {
 	info.AddOption(OPT_EXCLUDE, "Exclude packages by name or glob {s-}(mergeble){!}", "package")
 	info.AddOption(OPT_ENABLEREPO, "Enable additional repositories {s-}(mergeble){!}", "repo")
 	info.AddOption(OPT_DISABLEREPO, "Disable repositories {s-}(mergeble){!}", "repo")
+	info.AddOption(OPT_QUIET, "Quiet mode {s}(don't output anything){!}")
 	info.AddOption(OPT_NO_COLOR, "Disable colors in output")
 	info.AddOption(OPT_HELP, "Show this help message")
 	info.AddOption(OPT_VER, "Show version")
@@ -258,6 +279,9 @@ func genAbout(gitRev string) *usage.About {
 		Year:    2009,
 		Owner:   "ESSENTIAL KAOS",
 		License: "Apache License, Version 2.0 <https://www.apache.org/licenses/LICENSE-2.0>",
+
+		AppNameColorTag: colorTagApp,
+		VersionColorTag: colorTagVer,
 	}
 
 	if gitRev != "" {

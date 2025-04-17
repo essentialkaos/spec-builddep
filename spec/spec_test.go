@@ -2,7 +2,7 @@ package spec
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 //                                                                                    //
-//                         Copyright (c) 2024 ESSENTIAL KAOS                          //
+//                         Copyright (c) 2025 ESSENTIAL KAOS                          //
 //      Apache License, Version 2.0 <https://www.apache.org/licenses/LICENSE-2.0>     //
 //                                                                                    //
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -26,7 +26,7 @@ var _ = Suite(&SpecSuite{})
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 func (s *SpecSuite) TestGetDeps(c *C) {
-	deps, err := GetDeps("../testdata/test.spec")
+	deps, err := GetDeps("../testdata/test.spec", []string{"_pg:99"})
 	c.Assert(err, IsNil)
 	c.Assert(len(deps), Equals, 10)
 
@@ -61,10 +61,10 @@ func (s *SpecSuite) TestGetDeps(c *C) {
 }
 
 func (s *SpecSuite) TestErrors(c *C) {
-	_, err := GetDeps("/__unknown__")
+	_, err := GetDeps("/__unknown__", nil)
 	c.Assert(err, ErrorMatches, "File /__unknown__ doesn't exist or not accessible")
 
-	_, err = GetDeps("../testdata/broken.spec")
+	_, err = GetDeps("../testdata/broken.spec", nil)
 	c.Assert(err, ErrorMatches, "Spec parsing error: line 1: Unknown tag: TEST1234!")
 
 	c.Assert(Cond(0).String(), Equals, "")

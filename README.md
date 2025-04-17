@@ -2,7 +2,6 @@
 
 <p align="center">
   <a href="https://kaos.sh/r/spec-builddep"><img src="https://kaos.sh/r/spec-builddep.svg" alt="GoReportCard" /></a>
-  <a href="https://kaos.sh/l/spec-builddep"><img src="https://kaos.sh/l/1008b1e64602a52fa7d7.svg" alt="Code Climate Maintainability" /></a>
   <a href="https://kaos.sh/y/spec-builddep"><img src="https://kaos.sh/y/83c5070ce37641f19d5bf8174847d430.svg" alt="Codacy badge" /></a>
   <a href="https://kaos.sh/w/spec-builddep/ci"><img src="https://kaos.sh/w/spec-builddep/ci.svg" alt="GitHub Actions CI Status" /></a>
   <a href="https://kaos.sh/w/spec-builddep/codeql"><img src="https://kaos.sh/w/spec-builddep/codeql.svg" alt="GitHub Actions CodeQL Status" /></a>
@@ -19,7 +18,7 @@
 
 #### From source
 
-To build the `spec-builddep` from scratch, make sure you have a working Go 1.22+ workspace (_[instructions](https://go.dev/doc/install)_), then:
+To build the `spec-builddep` from scratch, make sure you have a working Go 1.23+ workspace (_[instructions](https://go.dev/doc/install)_), then:
 
 ```
 go install github.com/essentialkaos/spec-builddep@latest
@@ -80,7 +79,7 @@ spec-builddep --generate-man | sudo gzip > /usr/share/man/man1/spec-builddep.1.g
 
 ### Contributing
 
-Before contributing to this project please read our [Contributing Guidelines](https://github.com/essentialkaos/contributing-guidelines#contributing-guidelines).
+Before contributing to this project please read our [Contributing Guidelines](https://github.com/essentialkaos/.github/blob/master/CONTRIBUTING.md).
 
 ### License
 

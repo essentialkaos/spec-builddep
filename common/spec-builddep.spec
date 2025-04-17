@@ -6,7 +6,7 @@
 
 Summary:        Utility for installing dependencies for building an RPM package
 Name:           spec-builddep
-Version:        1.0.3
+Version:        1.1.0
 Release:        0%{?dist}
 Group:          Applications/System
 License:        Apache License, Version 2.0
@@ -16,7 +16,7 @@ Source0:        https://source.kaos.st/%{name}/%{name}-%{version}.tar.bz2
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  golang >= 1.22
+BuildRequires:  golang >= 1.23
 
 Requires:       rpm rpm-build
 
@@ -99,6 +99,12 @@ fi
 ################################################################################
 
 %changelog
+* Thu Apr 17 2025 Anton Novojilov <andy@essentialkaos.com> - 1.1.0-0
+- Improved quiet mode
+- Updated usage info
+- Fix error output in quiet mode
+- Dependencies update
+
 * Tue Sep 10 2024 Anton Novojilov <andy@essentialkaos.com> - 1.0.3-0
 - Fixed bug with handling defined macro
 
