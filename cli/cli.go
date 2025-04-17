@@ -33,7 +33,7 @@ import (
 // Basic utility info
 const (
 	APP  = "spec-builddep"
-	VER  = "1.0.3"
+	VER  = "1.1.0"
 	DESC = "Utility for installing dependencies for building an RPM package"
 )
 
@@ -125,14 +125,20 @@ func Run(gitRev string, gomod []byte) {
 	err := checkSystem()
 
 	if err != nil {
-		terminal.Error(err)
+		if !options.GetB(OPT_QUIET) {
+			terminal.Error(err)
+		}
+
 		os.Exit(1)
 	}
 
 	err = process(args)
 
 	if err != nil {
-		terminal.Error(err)
+		if !options.GetB(OPT_QUIET) {
+			terminal.Error(err)
+		}
+
 		os.Exit(1)
 	}
 }
@@ -218,6 +224,7 @@ func genUsage() *usage.Info {
 	info.AddOption(OPT_LIST, "List required build dependencies")
 	info.AddOption(OPT_ACTUAL, "Install the latest versions of all packages")
 	info.AddOption(OPT_CLEAN, "Clean package manager cache before install")
+	info.AddOption(OPT_QUIET, "Quiet mode {s}(don't output anything){!}")
 	info.AddOption(OPT_DEFINE, "Define a macro for spec file parsing {s-}(mergeble){!}", "macro")
 	info.AddOption(OPT_EXCLUDE, "Exclude packages by name or glob {s-}(mergeble){!}", "package")
 	info.AddOption(OPT_ENABLEREPO, "Enable additional repositories {s-}(mergeble){!}", "repo")
