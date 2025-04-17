@@ -84,6 +84,9 @@ var optMap = options.Map{
 // useRawOutput is raw output flag (for cli command)
 var useRawOutput = false
 
+// application name and version color tags
+var colorTagApp, colorTagVer string
+
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 // Run is main utility function
@@ -150,6 +153,15 @@ func preConfigureUI() {
 	if !tty.IsTTY() {
 		fmtc.DisableColors = true
 		useRawOutput = true
+	}
+
+	switch {
+	case fmtc.Is256ColorsSupported():
+		colorTagApp, colorTagVer = "{*}{#99}", "{#99}"
+		fmtc.AddColor("primary", "{#99}")
+	default:
+		colorTagApp, colorTagVer = "{*}{c}", "{c}"
+		fmtc.AddColor("primary", "{c}")
 	}
 }
 
@@ -221,6 +233,8 @@ func printMan() {
 func genUsage() *usage.Info {
 	info := usage.NewInfo("", "spec-file")
 
+	info.AppNameColorTag = colorTagApp
+
 	info.AddOption(OPT_LIST, "List required build dependencies")
 	info.AddOption(OPT_ACTUAL, "Install the latest versions of all packages")
 	info.AddOption(OPT_CLEAN, "Clean package manager cache before install")
@@ -265,6 +279,9 @@ func genAbout(gitRev string) *usage.About {
 		Year:    2009,
 		Owner:   "ESSENTIAL KAOS",
 		License: "Apache License, Version 2.0 <https://www.apache.org/licenses/LICENSE-2.0>",
+
+		AppNameColorTag: colorTagApp,
+		VersionColorTag: colorTagVer,
 	}
 
 	if gitRev != "" {

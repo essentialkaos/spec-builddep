@@ -55,7 +55,7 @@
 
   <text x="50%" y="24" text-anchor="middle"><tspan class="terminal">Terminal</tspan></text>
 
-  <text x="12" y="60"><tspan class="BB">Usage:</tspan> <tspan class="BB c">spec-builddep</tspan> <tspan class="g">{options}</tspan> <tspan class="s">spec-file</tspan></text>
+  <text x="12" y="60"><tspan class="BB">Usage:</tspan> <tspan class="BB" fill="#875FFF">spec-builddep</tspan> <tspan class="g">{options}</tspan> <tspan class="s">spec-file</tspan></text>
   <text x="12" y="100"><tspan class="BB">Options</tspan></text>
   <text x="12" y="140">  <tspan class="g">--list</tspan><tspan class="s">, </tspan><tspan class="g">-L</tspan> <tspan class="d">...............</tspan> List required build dependencies</text>
   <text x="12" y="160">  <tspan class="g">--actual</tspan><tspan class="s">, </tspan><tspan class="g">-A</tspan> <tspan class="d">.............</tspan> Install the latest versions of all packages</text>
