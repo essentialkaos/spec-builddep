@@ -6,7 +6,7 @@
 
 Summary:        Utility for installing dependencies for building an RPM package
 Name:           spec-builddep
-Version:        1.1.0
+Version:        1.1.1
 Release:        0%{?dist}
 Group:          Applications/System
 License:        Apache License, Version 2.0
@@ -99,6 +99,10 @@ fi
 ################################################################################
 
 %changelog
+* Thu May 15 2025 Anton Novojilov <andy@essentialkaos.com> - 1.1.1-0
+- Code refactoring
+- Dependencies update
+
 * Thu Apr 17 2025 Anton Novojilov <andy@essentialkaos.com> - 1.1.0-0
 - Improved quiet mode
 - Updated usage info
