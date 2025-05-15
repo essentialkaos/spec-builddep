@@ -33,7 +33,7 @@ import (
 // Basic utility info
 const (
 	APP  = "spec-builddep"
-	VER  = "1.1.0"
+	VER  = "1.1.1"
 	DESC = "Utility for installing dependencies for building an RPM package"
 )
 
@@ -158,10 +158,8 @@ func preConfigureUI() {
 	switch {
 	case fmtc.Is256ColorsSupported():
 		colorTagApp, colorTagVer = "{*}{#99}", "{#99}"
-		fmtc.AddColor("primary", "{#99}")
 	default:
 		colorTagApp, colorTagVer = "{*}{c}", "{c}"
-		fmtc.AddColor("primary", "{c}")
 	}
 }
 
