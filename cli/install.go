@@ -155,7 +155,7 @@ func installPackages(deps spec.BuildDeps, total int) error {
 
 	fmtc.If(!quiet).Printfn(
 		"{*}Installing {s}(%d/%d){!}: %s…\n",
-		len(deps), total, strings.Join(deps.Names(false), ", "),
+		len(deps), total, strings.Join(deps.Names(false), fmtc.Sprint("{s},{!} ")),
 	)
 
 	cmd := exec.Command(getPackageManager())
