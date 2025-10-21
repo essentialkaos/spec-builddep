@@ -44,11 +44,17 @@ func installDeps(specFile string) error {
 	}
 
 	quiet := options.GetB(OPT_QUIET)
+
+	if len(deps) == 0 {
+		fmtc.If(!quiet).Println("{g}Spec has no build dependencies{!}")
+		return nil
+	}
+
 	depsToInstall := filterRequiredDeps(deps)
 
 	if len(depsToInstall) == 0 {
-		fmtc.If(!quiet).Printf(
-			"{g}All required packages (%d) already installed{!}\n", len(deps),
+		fmtc.If(!quiet).Printfn(
+			"{g}All required packages (%d) already installed{!}", len(deps),
 		)
 		return nil
 	}
@@ -147,8 +153,8 @@ func cleanCache() {
 func installPackages(deps spec.BuildDeps, total int) error {
 	quiet := options.GetB(OPT_QUIET)
 
-	fmtc.If(!quiet).Printf(
-		"{*}Installing {s}(%d/%d){!}: %s…\n\n",
+	fmtc.If(!quiet).Printfn(
+		"{*}Installing {s}(%d/%d){!}: %s…\n",
 		len(deps), total, strings.Join(deps.Names(false), ", "),
 	)
 
@@ -163,7 +169,7 @@ func installPackages(deps spec.BuildDeps, total int) error {
 	cmd.Args = append(cmd.Args, "--assumeyes", "install")
 	cmd.Args = append(cmd.Args, deps.Names(true)...)
 
-	fmtc.If(!quiet).Printf("{s-}Command → %s\n\n", strings.Join(cmd.Args, " "))
+	fmtc.If(!quiet).Printfn("{s-}Command → %s\n", strings.Join(cmd.Args, " "))
 
 	err := cmd.Run()
 
