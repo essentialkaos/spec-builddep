@@ -100,6 +100,7 @@ fi
 
 %changelog
 * Tue Oct 21 2025 Anton Novojilov <andy@essentialkaos.com> - 1.1.2-0
+- Minor UI improvements
 - Dependencies update
 
 * Thu May 15 2025 Anton Novojilov <andy@essentialkaos.com> - 1.1.1-0
