@@ -8,8 +8,8 @@ package app
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 import (
-	"github.com/essentialkaos/ek/v13/fmtc"
-	"github.com/essentialkaos/ek/v13/options"
+	"github.com/essentialkaos/ek/v14/fmtc"
+	"github.com/essentialkaos/ek/v14/options"
 
 	"github.com/essentialkaos/spec-builddep/rpm"
 	"github.com/essentialkaos/spec-builddep/spec"

@@ -13,11 +13,11 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/essentialkaos/ek/v13/fmtc"
-	"github.com/essentialkaos/ek/v13/fsutil"
-	"github.com/essentialkaos/ek/v13/options"
-	"github.com/essentialkaos/ek/v13/system"
-	"github.com/essentialkaos/ek/v13/version"
+	"github.com/essentialkaos/ek/v14/fmtc"
+	"github.com/essentialkaos/ek/v14/fsutil"
+	"github.com/essentialkaos/ek/v14/options"
+	"github.com/essentialkaos/ek/v14/system"
+	"github.com/essentialkaos/ek/v14/version"
 
 	"github.com/essentialkaos/spec-builddep/rpm"
 	"github.com/essentialkaos/spec-builddep/spec"

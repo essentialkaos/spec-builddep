@@ -1,7 +1,6 @@
 <p align="center"><a href="#readme"><img src=".github/images/card.svg"/></a></p>
 
 <p align="center">
-  <a href="https://kaos.sh/r/spec-builddep"><img src="https://kaos.sh/r/spec-builddep.svg" alt="GoReportCard" /></a>
   <a href="https://kaos.sh/y/spec-builddep"><img src="https://kaos.sh/y/83c5070ce37641f19d5bf8174847d430.svg" alt="Codacy badge" /></a>
   <a href="https://kaos.sh/w/spec-builddep/ci"><img src="https://kaos.sh/w/spec-builddep/ci.svg" alt="GitHub Actions CI Status" /></a>
   <a href="https://kaos.sh/w/spec-builddep/codeql"><img src="https://kaos.sh/w/spec-builddep/codeql.svg" alt="GitHub Actions CodeQL Status" /></a>
